@@ -42,7 +42,6 @@ export default {
             this.counter -= 1            
         }
     },
-
     computed:{
         squareCounter(){ // Es mas practico por si se necesita realizar el mismo proceso muchas veces            
             return this.counter * this.counter
