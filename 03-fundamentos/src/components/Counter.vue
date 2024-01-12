@@ -1,30 +1,47 @@
 <template>
+<div>
 
-    <!-- <h2> {{ titulo || 'Counter' }} </h2> --> <!-- ? Aqui se le asigna el valor de 'Counter' si viene vacio el tituloS -->
+
+        <!-- <h2> {{ titulo || 'Counter' }} </h2> --> <!-- ? Aqui se le asigna el valor de 'Counter' si viene vacio el tituloS -->
 
     
-    <h2  > {{ customTitle }} </h2>
-
-    <p>{{ counter }} <sup>2</sup> = {{ counter * counter }}  </p>
+    <h2  > {{ customTitle }}</h2>    
 
     <p>{{ counter }} <sup>2</sup> = {{ squareCounter }}  </p>
 
-    <div>
-        <button @click="increase">+1</button>
+    <div class="button">        
         <button @click="decrease">-1</button>
+        <button @click="increase">+1</button>
     </div>
 
 
+</div>
 </template>
 
 <script>
 export default {
 
-    props:['titulo'], // Asi se reciben las propertis
+    // La diferencia de los atributos y las porpertis es que las properti ya estan previamente definidas 
+    //props:['titulo', 'start'], // Asi se reciben las propertis
+    props:{ // Las propiedades que acepta el componente
+        titulo: String,
+        start: {
+
+            type: Number,
+            
+            //require: true // Hacer que la properti sea obligatoria
+            
+            default: 100, // POner un valor por defecto
+
+            validator(value){ // Hacer validaciones del valor que se recibe
+                return value >= 0
+            }
+        }
+    },  
 
     data(){
         return {
-            counter: 5
+            counter: this.start
         } 
     },
 
@@ -35,11 +52,11 @@ export default {
         },
 
         increase(){            
-            this.counter += 1            
+            this.counter ++            
         },
 
         decrease(){            
-            this.counter -= 1            
+            this.counter --            
         }
     },
     computed:{

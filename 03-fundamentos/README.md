@@ -20,5 +20,10 @@ npm run build
 npm run test:unit
 ```
 
+### Update a Snapshot of code
+```
+npm run test:unit -- -u
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

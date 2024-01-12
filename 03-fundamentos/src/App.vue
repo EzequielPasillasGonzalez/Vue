@@ -1,20 +1,24 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
 
-  <Counter  titulo="Entraron"/> <!--? titulo: Son propertis que se envian -->
-  
-  <Counter titulo="Salieron"/>
-  
+  <!--? titulo: Son propertis que se envian -->    
+  <!-- <Counter  :start="101" titulo="Contador"/>  -->
+  <!--? Con el : se abrevia el v-bind y se envia el valor, o tambien puede mandarse la prop solo con el nombre  -->
+
+  <IndecisionVue/> <!--? asi se utilizan los componentes -->
+
 
 </template>
 
 <script>
 import Counter from './components/Counter.vue';
+import IndecisionVue from './components/Indecision.vue';
 
 export default {
     name: 'App',
     components: { 
-      Counter 
+      //Counter 
+      IndecisionVue
     }
 }
 </script>

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Counter Component Debe de hacer match con el snapshot 1`] = `
+<div>
+  <!-- <h2> {{ titulo || 'Counter' }} </h2> -->
+  <!-- ? Aqui se le asigna el valor de 'Counter' si viene vacio el tituloS -->
+  <h2>Counter</h2>
+  <p>100 <sup>2</sup> = 10000</p>
+  <div class="button"><button>-1</button><button>+1</button></div>
+</div>
+`;
