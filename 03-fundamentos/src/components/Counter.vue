@@ -9,6 +9,9 @@
 
     <p>{{ counter }} <sup>2</sup> = {{ squareCounter }}  </p>
 
+    <p data-testid="counter">{{ counter }}</p> 
+    <!-- El data-testid le asigna un id para despues poder ser evaluado en los test -->
+
     <div class="button">        
         <button @click="decrease">-1</button>
         <button @click="increase">+1</button>
