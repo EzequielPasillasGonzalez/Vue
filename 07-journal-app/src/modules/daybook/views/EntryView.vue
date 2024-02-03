@@ -30,8 +30,9 @@
     </div>
 
     <Fab
-        :icon="icon"
-    />
+        icon="fa-save"
+        @on:click="saveEntry" 
+    /> <!--? Asi se recibe un evento del FaBComponent -->
 
     <img src="https://s1.1zoom.me/b6053/435/Scenery_Sky_Tropics_Coast_Sea_Beach_512353_3840x2160.jpg" 
         alt="Entry picture"
@@ -58,7 +59,7 @@ export default {
     }, 
     data(){
         return{
-            icon: "fa-save",
+            // icon: "fa-save",
             entry: ''
         }
     },
@@ -90,6 +91,9 @@ export default {
             }
 
             this.entry = entry
+        },
+        async saveEntry(){
+            console.log('Guardando entrada...');
         }
     },
     created(){
