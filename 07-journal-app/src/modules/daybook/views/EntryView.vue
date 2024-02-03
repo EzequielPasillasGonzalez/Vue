@@ -25,7 +25,9 @@
         <textarea placeholder="¿Qué sucedió hoy?"></textarea>
     </div>
 
-    <Fab/>
+    <Fab
+        :icon="icon"
+    />
 
     <img src="https://s1.1zoom.me/b6053/435/Scenery_Sky_Tropics_Coast_Sea_Beach_512353_3840x2160.jpg" 
         alt="Entry picture"
@@ -36,6 +38,12 @@
 import { defineAsyncComponent } from 'vue'
 
 export default {
+
+    data(){
+        return{
+            icon: "fa-save"
+        }
+    },
     components: {
         Fab: defineAsyncComponent(() => import('../components/FaBComponent.vue'))
     }
