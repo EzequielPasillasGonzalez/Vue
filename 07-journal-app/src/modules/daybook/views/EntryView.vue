@@ -9,12 +9,23 @@
         </div>
 
         <div>
-            <button class="btn btn-danger mx-2">
+                                <!--? Es para escuchar los cambios en el input -->
+            <input type="file" @change="onSelectdImage"
+                    ref="imageSelector"
+                    v-show="false"
+                    accept="image/png, image/jpeg">
+                    <!--? La referncia es para que un boton haga el mismo trabajo que este, puede que queramos un boton personalizado -->
+                    
+
+            <button class="btn btn-danger mx-2"
+            v-if="entry.id"
+                @click="onDeleteEntry">
                 Borrar
                 <i class="fa fa-trash-alt"></i>
             </button>
 
-            <button class="btn btn-primary">
+            <button class="btn btn-primary"
+                @click="onPressImage"> <!--? Esta funcion llama a la referencia del boton de arriba para seleccionar imagenes -->
                 Subir foto
                 <i class="fa fa-upload"></i>
             </button>
@@ -34,10 +45,16 @@
         @on:click="saveEntry" 
     /> <!--? Asi se recibe un evento del FaBComponent -->
 
-    <img src="https://s1.1zoom.me/b6053/435/Scenery_Sky_Tropics_Coast_Sea_Beach_512353_3840x2160.jpg" 
+    <img v-if="entry.picture && !localImage "
+        :src="entry.picture" 
         alt="Entry picture"
         class="img-thumbnail">
-            
+    
+    <img
+        v-if="localImage"
+        :src="localImage" 
+        alt="Entry picture"
+        class="img-thumbnail">
     
     </template>
     
@@ -45,9 +62,11 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
+import Swal from 'sweetalert2'
 
 import getDayMonthYear from '../helpers/getDayMonthYear'
+import uploadImage from '../helpers/uploadImage'
 
 export default {
 
@@ -60,7 +79,9 @@ export default {
     data(){
         return{
             // icon: "fa-save",
-            entry: ''
+            entry: '',
+            localImage: null,
+            file: null,
         }
     },
     computed:{
@@ -84,16 +105,115 @@ export default {
         Fab: defineAsyncComponent(() => import('../components/FaBComponent.vue'))
     },
     methods:{
+        ...mapActions( 'journal', [
+                'updateEntries',
+                'createEntries',
+                'deleteEntries'
+        ]),
         loadEntry(){
-            const entry = this.getEntriesById(this.id)   
-            if(!entry){
-                return this.$router.push({name:'no-entry'})
+
+
+            let entry;
+
+            if(this.id == 'new'){
+                entry = {
+                    text: '',
+                    date: new Date().getTime(),                    
+                }
+            } else {
+                entry = this.getEntriesById(this.id)   
+                if(!entry){
+                    return this.$router.push({name:'no-entry'})
+                }
+                
             }
+
 
             this.entry = entry
         },
         async saveEntry(){
-            console.log('Guardando entrada...');
+
+            new Swal({ //? Mostrar alertas
+                title: 'Espere por favor',
+                allowOutsideClick: false
+            })
+
+            Swal.showLoading()
+
+            const picture = await uploadImage(this.file) //? subir foto al back, base de datos
+
+            this.entry.picture = picture
+
+            if(this.entry.id){
+                
+                // Disparar la accion del journal app
+                await this.updateEntries(this.entry)
+            } else {
+                // Crear una nueva entrada
+                // action createEntry
+                const resp = await this.createEntries(this.entry)
+                                
+                // redigirir al usuario de la url con el param de id
+                this.$router.push({ name: 'entry', params: { id: resp } })
+            }        
+            
+            this.localImage = null //? Para que no se encimen las imagenes
+
+            Swal.fire('Guardado', 'Entrada registrada con éxito', 'success')
+
+            
+        },
+        async onDeleteEntry(){            
+            
+
+            const { isConfirmed } = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Una vez borrado, no se puede recuperar',
+                showDenyButton: true,
+                confirmButtonText: 'Si estoy seguro'
+            })
+
+            if (isConfirmed) {
+                new Swal({
+                    title: 'Espere por favor',
+                    allowOutsideClick: false
+                })
+                Swal.showLoading()
+                
+                const { id } = this.entry
+                const { data } = await this.deleteEntries(id)    
+                
+                if(!data){
+                    // redireccionar al usuario fuera
+                    this.$router.push({name:'no-entry'})
+
+                    Swal.fire('Eliminado', '', 'success')
+                }
+            }
+        },
+
+        onSelectdImage($event){
+            const file = $event.target.files[0]
+            
+            if (!file){
+
+                this.localImage = null
+                this.file = null
+                return
+            }
+
+            this.file = file
+
+            const fr = new FileReader()
+
+            fr.onload = () => this.localImage = fr.result //? Establece la imagen en el local
+            fr.readAsDataURL(file)            
+
+
+        },
+
+        onPressImage(){
+            this.$refs.imageSelector.click() //? Se busca una referencia para lanzar la seleccion de archivos
         }
     },
     created(){
