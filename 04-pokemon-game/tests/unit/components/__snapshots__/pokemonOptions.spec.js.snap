@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PokemonOptions componente Debe de hacer match con el snapshot 1`] = `
+<div class="options-container">
+  <ul>
+    <li>
+      <!--? Con $emit es para nombrar el evento, primero se manda el nombre del evento -->
+      <!--? Despues se manda el argumento que se quiera  --> bulbasaur
+    </li>
+    <li>
+      <!--? Con $emit es para nombrar el evento, primero se manda el nombre del evento -->
+      <!--? Despues se manda el argumento que se quiera  --> ivysaur
+    </li>
+    <li>
+      <!--? Con $emit es para nombrar el evento, primero se manda el nombre del evento -->
+      <!--? Despues se manda el argumento que se quiera  --> venusaur
+    </li>
+    <li>
+      <!--? Con $emit es para nombrar el evento, primero se manda el nombre del evento -->
+      <!--? Despues se manda el argumento que se quiera  --> charmander
+    </li>
+  </ul>
+</div>
+`;

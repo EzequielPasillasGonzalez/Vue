@@ -22,7 +22,7 @@
         <button @click="newGame">Nuevo Juego</button>  
       </template>
       
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -62,6 +62,7 @@ export default {
       }else{
         this.message = `False, ${this.pokemon.name}`
       }
+      console.log('Hola pruebas', this.message)
     },
 
     newGame(){

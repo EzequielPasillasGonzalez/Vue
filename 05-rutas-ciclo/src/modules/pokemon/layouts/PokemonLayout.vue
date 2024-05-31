@@ -13,6 +13,6 @@ export default {
 
 <style scoped>
 .pokemon-layout{
-    background-color: brown;
+    background-color: whitesmoke;
 }
 </style>

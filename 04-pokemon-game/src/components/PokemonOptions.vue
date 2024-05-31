@@ -1,6 +1,6 @@
 <template>
   <div class="options-container">
-    <ul>
+    <ul>      
       <li v-for="pokemon in pokemons" :key="pokemon.id" @click="$emit('selection', pokemon.id)"> 
                     <!--? Con $emit es para nombrar el evento, primero se manda el nombre del evento -->
                     <!--? Despues se manda el argumento que se quiera  -->
