@@ -26,6 +26,10 @@ const useToDos = () => {
         store.commit('toggleToDo', id)
     }
 
+    const createToDo = (nameToDoModal) => {
+        store.commit('createToDo', nameToDoModal)
+    }
+
     return {
         all,
         completed,
@@ -33,6 +37,7 @@ const useToDos = () => {
         getToDoByTab,
         pending,
 
+        createToDo,
         toggleToDo,
     }
 }

@@ -37,25 +37,24 @@
         </template>
 
         <template v-slot:body>
-            <form @submit.prevent="onSubmit(nameToDo)">
+            <form @submit.prevent="createToDo(nameToDo)">
                 <input type="text" id="nameToDo" placeholder="Nombre de la tarea" autofocus v-model="nameToDo">
                 <br>
-                <button>Enviar</button>
+                <button type="submit">Enviar</button>
             </form>
         </template>
 
 
 
         <template v-slot:footer>
-            <button @click="openModal">Cerrar</button>
+            <button  @click="openModal">Cerrar</button>
         </template>
     </slotModal>
 
 </template>
 
 <script>
-import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { ref } from 'vue'
 
 import useTodos from '@/composable/useTodos'
 import useOpenModal from '@/composable/useOpenModal'
@@ -67,22 +66,12 @@ export default {
     },
 
     setup() {
-
-        const store = useStore()
+        
         let nameToDo = ref('')
 
         const { isOpen, openModal } = useOpenModal()
-        const { all, completed, currentTab, getToDoByTab, pending, toggleToDo } = useTodos()
+        const { all, completed, currentTab, getToDoByTab, pending, toggleToDo, createToDo } = useTodos()
 
-
-
-
-
-        const onSubmit = (nameToDoModal) => {                                    
-            const addTodo = computed(() =>            
-                store.commit('createToDo', nameToDoModal)
-            )
-        }
 
         return {
             all,
@@ -91,12 +80,11 @@ export default {
             getToDoByTab,
             pending,
             isOpen,
-            nameToDo,            
+            nameToDo,
 
             toggleToDo,
-            openModal,
-            onSubmit,
-            
+            openModal,            
+            createToDo,
         }
     }
 

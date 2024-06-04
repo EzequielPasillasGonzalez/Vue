@@ -44,3 +44,10 @@ export const deleteEntries = (state, id) => {
     
 
 }
+
+export const clearEntries = (state) => {
+
+    state.entries = []
+    
+
+}

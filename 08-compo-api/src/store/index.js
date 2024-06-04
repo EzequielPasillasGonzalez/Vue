@@ -15,17 +15,19 @@ export default createStore({
   },
   mutations: {
     toggleToDo(state, id) {
+      console.log(id, 'id');
       const index = state.toDo.findIndex(task => task.id === id)
+      console.log(index);
       state.toDo[index].completed = !state.toDo[index].completed
     },
     createToDo(state, text = '') {
-      console.log('text');
+      console.log(text);
       if (text.length <= 1) {
         return false
       }
 
       state.toDo.push({
-        id: uuidv4,
+        id: uuidv4(),
         completed: false,
         text
       })

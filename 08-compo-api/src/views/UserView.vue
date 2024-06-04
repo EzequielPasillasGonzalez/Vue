@@ -13,12 +13,10 @@
     </div>
 
     <div v-if="users.length > 0">
-        <ul>
-            <li v-for="{ first_name, last_name, email, id } in users" :key="id">
-                <h4>{{first_name}} {{last_name}}</h4>
-                <h6>{{email}}</h6>
-            </li>
-        </ul>
+        <user-List-ComponentVue :users="users" v-slot="{ user }"> <!--? Template de como queremos que se muestre en el slot -->
+            <h5>{{user.first_name}} {{user.last_name}}</h5>  <!--? Datos a mostrar en el slot  -->            
+            <span>{{user.email}}</span>
+        </user-List-ComponentVue>        
     </div>
 
 
@@ -29,9 +27,13 @@
 
 <script>
 import useUsers from '@/composable/useUsers'
+import userListComponentVue from '@/components/userList.component.vue'
 
 
 export default {
+    components: {
+        userListComponentVue
+    },
     setup() {
        
         const { currenPage, errorMessage, isLoading, nextPage, previusPage, users } = useUsers()

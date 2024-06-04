@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 import dayBookrouter from '../modules/daybook/router';
+import authRouter from '../modules/auth/router';
+import isAuthenticated from '@/modules/auth/router/auth-guard';
 
 const routes = [
   {
@@ -18,8 +20,13 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/dayBook',    
+    path: '/dayBook',   
+    beforeEnter: [isAuthenticated],
     ...dayBookrouter //? Se importo del router de modules y se esparce con ...
+  },
+  {
+    path: '/auth',        
+    ...authRouter //? Se importo del router de modules y se esparce con ...
   }
 ]
 
